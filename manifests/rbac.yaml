@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kube-oos-controller
+  namespace: kube-system
+
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: kube-oos-controller
+  namespace: kube-system
+
+rules:
+  - apiGroups: [""]
+    resources:
+      - nodes
+    verbs:
+      - get
+      - list
+      - watch
+      - update
+
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: kube-oos-controller
+  namespace: kube-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kube-oos-controller
+subjects:
+  - kind: ServiceAccount
+    name: kube-oos-controller
+    namespace: kube-system

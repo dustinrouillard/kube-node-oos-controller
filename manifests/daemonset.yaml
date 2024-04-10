@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: kube-node-oos-controller
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      app: kube-node-oos-controller
+  template:
+    metadata:
+      labels:
+        app: kube-node-oos-controller
+    spec:
+      tolerations:
+        - key: node-role.kubernetes.io/control-plane
+          effect: NoSchedule
+      serviceAccountName: kube-oos-controller
+      imagePullSecrets:
+        - name: ghcr-creds
+      containers:
+        - name: kube-node-oos-controller
+          image: ghcr.io/dustinrouillard/kube-node-oos-controller
+          resources:
+            limits:
+              memory: 256Mi
+              cpu: 200m
