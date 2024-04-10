@@ -19,7 +19,7 @@ rules:
       - get
       - list
       - watch
-      - update
+      - patch
 
 ---
 kind: ClusterRoleBinding
